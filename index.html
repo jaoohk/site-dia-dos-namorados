@@ -20,6 +20,13 @@
       color: #d6336c;
       font-size: 2rem;
     }
+    input {
+      padding: 10px;
+      font-size: 1rem;
+      border: 2px solid #d6336c;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
     button {
       background-color: #d6336c;
       color: white;
@@ -29,15 +36,43 @@
       border-radius: 8px;
       cursor: pointer;
       margin-top: 20px;
-      transition: 0.3s;
+      display: none;
     }
     button:hover {
       background-color: #b02556;
+    }
+    .error {
+      color: red;
+      margin-top: 10px;
+      display: none;
     }
   </style>
 </head>
 <body>
   <h1>Tenho algo especial para você 💖</h1>
-  <button onclick="window.location.href='surpresa.html'">Para meu amor 💌</button>
+  <input type="password" id="senha" placeholder="Digite a senha" />
+  <div class="error" id="erro">Senha incorreta 😢</div>
+  <button id="acessar" onclick="window.location.href='surpresa.html'">Para meu amor 💌</button>
+
+  <script>
+    const senhaCorreta = "061197"; // você pode mudar a senha aqui
+    const input = document.getElementById("senha");
+    const botao = document.getElementById("acessar");
+    const erro = document.getElementById("erro");
+
+    input.addEventListener("input", () => {
+      if (input.value.toLowerCase() === senhaCorreta.toLowerCase()) {
+        botao.style.display = "inline-block";
+        erro.style.display = "none";
+      } else {
+        botao.style.display = "none";
+        if (input.value.length > 0) {
+          erro.style.display = "block";
+        } else {
+          erro.style.display = "none";
+        }
+      }
+    });
+  </script>
 </body>
 </html>
