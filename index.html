@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Minha Senha</title>
+  <title>Meu Amor</title>
   <style>
     body {
       background: #ffd6e7;
@@ -70,18 +70,6 @@
       background-color: #f9bfd5;
     }
 
-    #acessar {
-      display: none;
-      background-color: #c73866;
-      color: white;
-      font-size: 1.2rem;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 10px;
-      margin-top: 20px;
-      cursor: pointer;
-    }
-
     .erro {
       color: red;
       margin-top: 10px;
@@ -92,7 +80,7 @@
 <body>
 
   <div class="logo">🎀</div>
-  <h1>Minha Senha</h1>
+  <h1>Meu Amor</h1>
   <p>uma data especial para nós</p>
 
   <div class="senha-digitada" id="senhaDigitada"></div>
@@ -112,14 +100,12 @@
     <button class="num-btn controle" id="esconder">🔒</button>
   </div>
 
-  <button id="acessar" onclick="window.location.href='surpresa.html'">Para meu amor 💌</button>
   <div class="erro" id="erro">Senha incorreta 💭</div>
 
   <script>
     const senhaCorreta = "1406";
     let senhaAtual = "";
     const senhaDigitada = document.getElementById('senhaDigitada');
-    const botaoAcessar = document.getElementById('acessar');
     const erro = document.getElementById('erro');
 
     document.querySelectorAll('.num-btn').forEach(btn => {
@@ -138,17 +124,17 @@
 
         if (senhaAtual.length === senhaCorreta.length) {
           if (senhaAtual === senhaCorreta) {
-            botaoAcessar.style.display = 'inline-block';
             erro.style.display = 'none';
+            setTimeout(() => {
+              window.location.href = 'surpresa.html';
+            }, 500);
           } else {
             erro.style.display = 'block';
-            botaoAcessar.style.display = 'none';
             senhaAtual = "";
             senhaDigitada.textContent = "";
           }
         } else {
           erro.style.display = 'none';
-          botaoAcessar.style.display = 'none';
         }
       });
     });
