@@ -3,59 +3,85 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Para Meu Amor 💌</title>
+  <title>Minha Senha</title>
   <style>
     body {
-      background-color: #ffe6f0;
-      font-family: Arial, sans-serif;
+      background: #ffd6e7;
+      font-family: 'Arial', sans-serif;
       text-align: center;
-      padding: 30px;
+      margin: 0;
+      padding: 30px 20px;
     }
+
+    .logo {
+      font-size: 3rem;
+      margin-top: 20px;
+    }
+
     h1 {
-      color: #d6336c;
-      font-size: 1.8rem;
-      margin-bottom: 20px;
+      color: #c73866;
+      font-size: 2rem;
+      margin: 10px 0 5px;
     }
+
+    p {
+      color: #8b1e3f;
+      font-size: 1rem;
+      margin-bottom: 30px;
+    }
+
     .senha-digitada {
+      background: #ffffffdd;
+      border: 2px solid #c73866;
+      border-radius: 12px;
       font-size: 2rem;
       letter-spacing: 10px;
-      margin-bottom: 20px;
-      min-height: 40px;
+      padding: 10px 20px;
+      width: fit-content;
+      margin: 0 auto 25px;
+      color: #333;
     }
+
     .teclado {
       display: grid;
-      grid-template-columns: repeat(3, 70px);
+      grid-template-columns: repeat(3, 1fr);
       gap: 15px;
-      justify-content: center;
-      margin: 20px 0;
+      max-width: 300px;
+      margin: 0 auto 20px;
     }
+
     .num-btn {
       font-size: 1.5rem;
-      padding: 15px;
-      border: 2px solid #d6336c;
-      border-radius: 12px;
-      background-color: white;
-      cursor: pointer;
-      transition: transform 0.2s;
+      padding: 20px;
+      background-color: #fff;
+      border: none;
+      border-radius: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      color: #c73866;
+      transition: background 0.2s, transform 0.1s;
     }
+
     .num-btn:active {
-      transform: scale(1.1);
+      background-color: #f9bfd5;
+      transform: scale(0.95);
     }
-    .controle-btn {
-      grid-column: span 3;
-      background-color: #f5a3b5;
+
+    .controle {
+      background-color: #f9bfd5;
     }
-    button#acessar {
-      background-color: #d6336c;
+
+    #acessar {
+      display: none;
+      background-color: #c73866;
       color: white;
       font-size: 1.2rem;
       padding: 12px 24px;
       border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      display: none;
+      border-radius: 10px;
       margin-top: 20px;
+      cursor: pointer;
     }
+
     .erro {
       color: red;
       margin-top: 10px;
@@ -64,11 +90,14 @@
   </style>
 </head>
 <body>
-  <h1>Digite a senha secreta 💞</h1>
+
+  <div class="logo">🎀</div>
+  <h1>Minha Senha</h1>
+  <p>uma data especial para nós</p>
+
   <div class="senha-digitada" id="senhaDigitada"></div>
 
-  <div class="teclado" id="teclado">
-    <!-- Números -->
+  <div class="teclado">
     <button class="num-btn">1</button>
     <button class="num-btn">2</button>
     <button class="num-btn">3</button>
@@ -78,12 +107,13 @@
     <button class="num-btn">7</button>
     <button class="num-btn">8</button>
     <button class="num-btn">9</button>
-    <button class="num-btn controle-btn" id="limpar">Limpar</button>
+    <button class="num-btn controle" id="limpar">⌫</button>
     <button class="num-btn">0</button>
+    <button class="num-btn controle" id="esconder">🔒</button>
   </div>
 
   <button id="acessar" onclick="window.location.href='surpresa.html'">Para meu amor 💌</button>
-  <div class="erro" id="erro">Senha incorreta, tente de novo 💭</div>
+  <div class="erro" id="erro">Senha incorreta 💭</div>
 
   <script>
     const senhaCorreta = "1406";
@@ -96,32 +126,33 @@
       btn.addEventListener('click', () => {
         const valor = btn.textContent;
 
-        if (valor === "Limpar") {
+        if (valor === "⌫") {
+          senhaAtual = senhaAtual.slice(0, -1);
+        } else if (valor === "🔒") {
           senhaAtual = "";
-          senhaDigitada.textContent = "";
-          erro.style.display = "none";
-          botaoAcessar.style.display = "none";
-          return;
+        } else if (senhaAtual.length < senhaCorreta.length) {
+          senhaAtual += valor;
         }
 
-        if (senhaAtual.length < senhaCorreta.length) {
-          senhaAtual += valor;
-          senhaDigitada.textContent = senhaAtual.replace(/./g, "●"); // bolinhas
+        senhaDigitada.textContent = senhaAtual.replace(/./g, "•");
 
-          if (senhaAtual.length === senhaCorreta.length) {
-            if (senhaAtual === senhaCorreta) {
-              botaoAcessar.style.display = 'inline-block';
-              erro.style.display = 'none';
-            } else {
-              erro.style.display = 'block';
-              senhaAtual = "";
-              senhaDigitada.textContent = "";
-              botaoAcessar.style.display = 'none';
-            }
+        if (senhaAtual.length === senhaCorreta.length) {
+          if (senhaAtual === senhaCorreta) {
+            botaoAcessar.style.display = 'inline-block';
+            erro.style.display = 'none';
+          } else {
+            erro.style.display = 'block';
+            botaoAcessar.style.display = 'none';
+            senhaAtual = "";
+            senhaDigitada.textContent = "";
           }
+        } else {
+          erro.style.display = 'none';
+          botaoAcessar.style.display = 'none';
         }
       });
     });
   </script>
+
 </body>
 </html>
