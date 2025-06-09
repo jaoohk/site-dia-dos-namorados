@@ -8,26 +8,44 @@
     body {
       background-color: #ffe6f0;
       font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
       text-align: center;
+      padding: 30px;
     }
     h1 {
       color: #d6336c;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+    .senha-digitada {
       font-size: 2rem;
+      letter-spacing: 10px;
+      margin-bottom: 20px;
+      min-height: 40px;
     }
-    input {
-      padding: 10px;
-      font-size: 1rem;
+    .teclado {
+      display: grid;
+      grid-template-columns: repeat(3, 70px);
+      gap: 15px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .num-btn {
+      font-size: 1.5rem;
+      padding: 15px;
       border: 2px solid #d6336c;
-      border-radius: 8px;
-      margin-top: 20px;
+      border-radius: 12px;
+      background-color: white;
+      cursor: pointer;
+      transition: transform 0.2s;
     }
-    button {
+    .num-btn:active {
+      transform: scale(1.1);
+    }
+    .controle-btn {
+      grid-column: span 3;
+      background-color: #f5a3b5;
+    }
+    button#acessar {
       background-color: #d6336c;
       color: white;
       font-size: 1.2rem;
@@ -35,13 +53,10 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      margin-top: 20px;
       display: none;
+      margin-top: 20px;
     }
-    button:hover {
-      background-color: #b02556;
-    }
-    .error {
+    .erro {
       color: red;
       margin-top: 10px;
       display: none;
@@ -49,29 +64,63 @@
   </style>
 </head>
 <body>
-  <h1>Tenho algo especial para você 💖</h1>
-  <input type="password" id="senha" placeholder="Digite a senha" />
-  <div class="error" id="erro">Senha incorreta 😢</div>
+  <h1>Digite a senha secreta 💞</h1>
+  <div class="senha-digitada" id="senhaDigitada"></div>
+
+  <div class="teclado" id="teclado">
+    <!-- Números -->
+    <button class="num-btn">1</button>
+    <button class="num-btn">2</button>
+    <button class="num-btn">3</button>
+    <button class="num-btn">4</button>
+    <button class="num-btn">5</button>
+    <button class="num-btn">6</button>
+    <button class="num-btn">7</button>
+    <button class="num-btn">8</button>
+    <button class="num-btn">9</button>
+    <button class="num-btn controle-btn" id="limpar">Limpar</button>
+    <button class="num-btn">0</button>
+  </div>
+
   <button id="acessar" onclick="window.location.href='surpresa.html'">Para meu amor 💌</button>
+  <div class="erro" id="erro">Senha incorreta, tente de novo 💭</div>
 
   <script>
-    const senhaCorreta = "061197"; // você pode mudar a senha aqui
-    const input = document.getElementById("senha");
-    const botao = document.getElementById("acessar");
-    const erro = document.getElementById("erro");
+    const senhaCorreta = "1406";
+    let senhaAtual = "";
+    const senhaDigitada = document.getElementById('senhaDigitada');
+    const botaoAcessar = document.getElementById('acessar');
+    const erro = document.getElementById('erro');
 
-    input.addEventListener("input", () => {
-      if (input.value.toLowerCase() === senhaCorreta.toLowerCase()) {
-        botao.style.display = "inline-block";
-        erro.style.display = "none";
-      } else {
-        botao.style.display = "none";
-        if (input.value.length > 0) {
-          erro.style.display = "block";
-        } else {
+    document.querySelectorAll('.num-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const valor = btn.textContent;
+
+        if (valor === "Limpar") {
+          senhaAtual = "";
+          senhaDigitada.textContent = "";
           erro.style.display = "none";
+          botaoAcessar.style.display = "none";
+          return;
         }
-      }
+
+        if (senhaAtual.length < senhaCorreta.length) {
+          senhaAtual += valor;
+          senhaDigitada.textContent = senhaAtual.replace(/./g, "●"); // bolinhas
+
+          if (senhaAtual.length === senhaCorreta.length) {
+            if (senhaAtual === senhaCorreta) {
+              botaoAcessar.style.display = 'inline-block';
+              erro.style.display = 'none';
+            } else {
+              erro.style.display = 'block';
+              senhaAtual = "";
+              senhaDigitada.textContent = "";
+              botaoAcessar.style.display = 'none';
+            }
+          }
+        }
+      });
     });
   </script>
 </body>
