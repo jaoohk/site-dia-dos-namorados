@@ -66,8 +66,13 @@
     const audio = document.getElementById("audio");
 
     botao.addEventListener("click", () => {
-      audio.play();
-      botao.style.display = "none";
+      audio.volume = 1.0;
+      audio.play().then(() => {
+        botao.style.display = "none";
+      }).catch((error) => {
+        alert("Erro ao tentar tocar a música. Por favor, toque manualmente no player.");
+        console.error(error);
+      });
     });
   </script>
 </body>
